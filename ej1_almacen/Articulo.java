@@ -66,13 +66,15 @@ public class Articulo {
    * @param precioCompra
    * @param precioVenta
    * @param stock
+   * @param iva
    * @throws ValorNegativoStockException
    * @throws IvaInvalidoException
-   * @throws PrecioNegativoCompraException 
-   * @throws PrecioNegativoVentaException 
+   * @throws PrecioNegativoCompraException
+   * @throws PrecioNegativoVentaException
    */
   Articulo(String descripcion, double precioCompra, double precioVenta, int stock, TipoIva iva)
-      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException, PrecioNegativoVentaException {
+      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException,
+      PrecioNegativoVentaException {
 
     setCodigo(generaCodigo());
     setDescripcion(descripcion);
@@ -82,16 +84,16 @@ public class Articulo {
     setIVA(iva);
 
   }
-  
+
   /**
    * constructor (2)
    * 
    * @param codigo
    */
   Articulo(int codigo) {
-   setCodigo(codigo);
+    setCodigo(codigo);
   }
-  
+
   /**
    * setCodigo
    * 
@@ -100,7 +102,7 @@ public class Articulo {
   private void setCodigo(int codigoId) {
     this.codigo = codigoId;
   }
-  
+
   /**
    * método que genera un código para cada artículo de forma automática
    * 
@@ -109,7 +111,7 @@ public class Articulo {
   private int generaCodigo() {
     return contador++;
   }
-  
+
   /**
    * setDescripcion
    * 
@@ -118,14 +120,14 @@ public class Articulo {
   private void setDescripcion(String descripcion) {
     this.descripcion = descripcion;
   }
-  
+
   /**
    * setIva
    * 
-   * @param iva
+   * @param TipoIva
    * @throws IvaInvalidoException
    */
-  private void setIVA(TipoIva iva) throws IvaInvalidoException { 
+  private void setIVA(TipoIva iva) throws IvaInvalidoException {
 
     if (iva == null) {
       throw new IvaInvalidoException("Iva no válido.");
@@ -133,46 +135,40 @@ public class Articulo {
     this.iva = iva;
 
   }
-  
-  //getter IVA
-  public TipoIva getIVA() { 
+
+  // getter IVA
+  public TipoIva getIVA() {
     return iva;
   }
-  
+
   /**
    * SetPrecioCompra
    * 
    * @param precioCompra
-   * @throws PrecioNegativoCompraException 
-   * @throws ValorNegativoStockException
+   * @throws PrecioNegativoCompraException
    */
-  private void setPrecioCompra(double precioCompra) throws PrecioNegativoCompraException{
+  private void setPrecioCompra(double precioCompra) throws PrecioNegativoCompraException {
     if (precioCompra <= 0)
       throw new PrecioNegativoCompraException("Precio de compra no puede ser negativo.");
-    
+
     this.precioCompra = precioCompra;
-    
+
   }
-  
+
   /**
    * SetPrecioVenta
    * 
    * @param precioVenta
-   * @throws PrecioNegativoVentaException 
-   * @throws ValorNegativoStockException
+   * @throws PrecioNegativoVentaException
    */
-  private void setPrecioVenta(double precioVenta) throws PrecioNegativoVentaException{
+  private void setPrecioVenta(double precioVenta) throws PrecioNegativoVentaException {
     if (precioVenta <= 0)
       throw new PrecioNegativoVentaException("Precio de venta no puede ser negativo.");
-    
+
     this.precioVenta = precioVenta;
   }
-  
-  /**
-   * getStock
-   * 
-   * @return
-   */
+
+  // getter stock
   public int getStock() {
     return stock;
   }
@@ -186,7 +182,7 @@ public class Articulo {
   private void setStock(int stock) throws ValorNegativoStockException {
     if (stock < 0)
       throw new ValorNegativoStockException("Stock no puede ser negativo.");
-    
+
     this.stock = stock;
   }
 
@@ -229,13 +225,15 @@ public class Articulo {
    * @param precioCompra
    * @param precioVenta
    * @param stock
+   * @param iva
    * @throws ValorNegativoStockException
    * @throws IvaInvalidoException
-   * @throws PrecioNegativoCompraException 
-   * @throws PrecioNegativoVentaException 
+   * @throws PrecioNegativoCompraException
+   * @throws PrecioNegativoVentaException
    */
   void modificarArticulo(String descripcion, double precioCompra, double precioVenta, int stock, TipoIva iva)
-      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException, PrecioNegativoVentaException {
+      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException,
+      PrecioNegativoVentaException {
     setDescripcion(descripcion);
     setPrecioCompra(precioCompra);
     setPrecioVenta(precioVenta);
@@ -252,7 +250,7 @@ public class Articulo {
    */
   void incrementarStock(int cantidad) throws ValorNegativoStockException {
     if (cantidad < 0)
-      throw new ValorNegativoStockException("El stock no puede ser negativo.");
+      throw new ValorNegativoStockException("La cantidad no puede ser negativa.");
 
     setStock(getStock() + cantidad);
 
@@ -266,7 +264,7 @@ public class Articulo {
    */
   void decrementarStock(int cantidad) throws ValorNegativoStockException {
     if (cantidad < 0)
-      throw new ValorNegativoStockException("El stock no puede ser negativo.");
+      throw new ValorNegativoStockException("La cantidad no puede ser negativa.");
 
     setStock(getStock() - cantidad);
 
