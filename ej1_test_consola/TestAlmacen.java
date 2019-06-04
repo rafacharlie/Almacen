@@ -215,7 +215,7 @@ public class TestAlmacen {
   /**
    * Método con el cuál se comprueba que el valor del menú del IVA sea correcto.
    * 
-   * @return TipoIva enum
+   * @return TipoIva enumerado
    */
   private static TipoIva elegirIVA() {
 
