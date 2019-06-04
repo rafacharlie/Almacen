@@ -43,26 +43,12 @@ public class TestAlmacen {
       almacen.darAlta("Coca-Cola", 30, 45, 68, TipoIva.GENERAL);
       almacen.darAlta("Fanta", 33, 42, 53, TipoIva.SUPER_REDUCIDO);
 
-    } catch (ValorNegativoStockException | IvaInvalidoException | PrecioNegativoCompraException
-        | PrecioNegativoVentaException e) {
-      // aqui nunca entra
-    }
-    
-    //////////////////////////////////////revisar esta parte/////////////////////////////////////////////
-    try {
       ejecutaMenu();
-    } catch (NumberFormatException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (ParametroNoNumericoException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    } catch (AlmacenVacioException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+
+    } catch (ValorNegativoStockException | IvaInvalidoException | PrecioNegativoCompraException
+        | PrecioNegativoVentaException | NumberFormatException | ParametroNoNumericoException | IOException
+        | AlmacenVacioException e) {
+      // aqui nunca entra
     }
 
   }
@@ -81,9 +67,8 @@ public class TestAlmacen {
    * método vacio que ejecuta el menú junto a mostrarMenu() y elegirOpcion()
    * 
    * @throws ParametroNoNumericoException
-   * @throws ValorNegativoStockException
-   * @throws IOException
    * @throws NumberFormatException
+   * @throws IOException
    * @throws AlmacenVacioException
    */
   private static void ejecutaMenu()
@@ -121,7 +106,6 @@ public class TestAlmacen {
         finalizarPrograma();
         break;
 
-      // si el switch no entra en ningún case, entra en default
       default:
         System.err.println("No introdujiste una opción correcta. Inténtalo de nuevo.\n");
         break;
@@ -139,26 +123,13 @@ public class TestAlmacen {
 
   /**
    * método vacio que añade un nuevo artículo al almacén
-   * 
-   * @throws IOException
-   * @throws NumberFormatException
-   * @throws PrecioNegativoVentaException
-   * @throws PrecioNegativoCompraException
-   * @throws IvaInvalidoException
-   * @throws ValorNegativoStockException
    */
   private static void darAlta() {
     try {
 
-      String descripcion = Teclado.leerCadena("Introduce una breve descripción del artículo:");
-
-      double precioCompra = Teclado.leerDecimal("Precio de compra del artículo: ");
-
-      double precioVenta = Teclado.leerDecimal("Precio de venta del artículo: ");
-
-      int stock = Teclado.leerEntero("Cantidad del artículo en stock: ");
-
-      almacen.darAlta(descripcion, precioCompra, precioVenta, stock, elegirIVA());
+      almacen.darAlta(Teclado.leerCadena("Introduce una breve descripción del artículo:"),
+          Teclado.leerDecimal("Precio de compra del artículo: "), Teclado.leerDecimal("Precio de venta del artículo: "),
+          Teclado.leerEntero("Cantidad del artículo en stock: "), elegirIVA());
 
     } catch (ValorNegativoStockException | IvaInvalidoException | PrecioNegativoCompraException
         | PrecioNegativoVentaException e) {
@@ -188,29 +159,19 @@ public class TestAlmacen {
       int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a modificar: ");
       Articulo articulo = almacen.getCodigo(codigo);
 
-      String descripcion = Teclado.leerCadena("Introduce una breve descripción del artículo:");
-
-      double precioCompra = Teclado.leerDecimal("Precio de compra del artículo: ");
-
-      double precioVenta = Teclado.leerDecimal("Precio de venta del artículo: ");
-
-      int stock = Teclado.leerEntero("Cantidad del artículo en stock: ");
-
-      // menuIva();
-      // TipoIva iva = elegirIVA();
-
-      almacen.modificarArticulo(codigo, descripcion, precioCompra, precioVenta, stock, elegirIVA());
+      almacen.modificarArticulo(codigo, Teclado.leerCadena("Introduce una breve descripción del artículo:"),
+          Teclado.leerDecimal("Precio de compra del artículo: "), Teclado.leerDecimal("Precio de venta del artículo: "),
+          Teclado.leerEntero("Cantidad del artículo en stock: "), elegirIVA());
 
     } catch (ValorNegativoStockException | IvaInvalidoException | PrecioNegativoCompraException
-        | PrecioNegativoVentaException e) {
+        | PrecioNegativoVentaException | codigoNoExisteException e) {
 
       System.err.println("Hubo algún problema al modificar el artículo.\n" + e.getMessage());
     }
   }
 
   /**
-   * método vacio que incrementa el stock según el parámetro codigo que le envie
-   * el usuario
+   * método vacio que incrementa el stock.
    */
   private static void incrementarStock() {
 
@@ -220,21 +181,19 @@ public class TestAlmacen {
 
       Articulo articulo = almacen.getCodigo(codigo);
 
-      int cantidad = Teclado
-          .leerEntero("Introduce cuánto stock nuevo hay en el almacén (" + articulo.getStock() + " actuales): ");
+      almacen.incrementarStock(codigo, Teclado
+          .leerEntero("Introduce cuánto stock nuevo hay en el almacén (" + articulo.getStock() + " actuales): "));
 
       System.out.println("Stock añadido correctamente.");
 
-      almacen.incrementarStock(codigo, cantidad);
-    } catch (ValorNegativoStockException e) {
+    } catch (ValorNegativoStockException | codigoNoExisteException e) {
       System.err.println("Hubo algún problema al incrementar el stock.\n" + e.getMessage());
     }
 
   }
 
   /**
-   * método vacio que decrementa el stock según el parámetro codigo que le envie
-   * el usuario
+   * método vacio que decrementa el stock.
    */
   private static void decrementarStock() {
     try {
@@ -242,45 +201,34 @@ public class TestAlmacen {
 
       Articulo articulo = almacen.getCodigo(codigo);
 
-      int cantidad = Teclado
-          .leerEntero("Introduce cuánto stock se ha eliminado del almacén (" + articulo.getStock() + " actuales): ");
-      
+      almacen.decrementarStock(codigo, Teclado
+          .leerEntero("Introduce cuánto stock se ha eliminado del almacén (" + articulo.getStock() + " actuales): "));
+
       System.out.println("Stock eliminado correctamente.");
-      
-      almacen.decrementarStock(codigo, cantidad);
-      
-    } catch (ValorNegativoStockException e) {
+
+    } catch (ValorNegativoStockException | codigoNoExisteException e) {
       System.err.println("Hubo algún problema al decrementar el stock.\n" + e.getMessage());
     }
-    
 
   }
 
   /**
    * Método con el cuál se comprueba que el valor del menú del IVA sea correcto.
    * 
-   * @return numeroIVA
-   * @throws NumberFormatException
-   * @throws IOException
+   * @return TipoIva enum
    */
   private static TipoIva elegirIVA() {
 
-    try {
-      switch (menuIVA.gestionar()) {
-      case 1:
-        return TipoIva.GENERAL;
+    switch (menuIVA.gestionar()) {
+    case 1:
+      return TipoIva.GENERAL;
 
-      case 2:
-        return TipoIva.REDUCIDO;
+    case 2:
+      return TipoIva.REDUCIDO;
 
-      default:
-        return TipoIva.SUPER_REDUCIDO;
-      }
-    } catch (NumberFormatException | IOException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
+    default:
+      return TipoIva.SUPER_REDUCIDO;
     }
-    return null;
 
   }
 
