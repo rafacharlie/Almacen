@@ -105,10 +105,6 @@ public class TestAlmacen {
       case 7:
         finalizarPrograma();
         break;
-
-      default:
-        System.err.println("No introdujiste una opción correcta. Inténtalo de nuevo.\n");
-        break;
       }
 
     } while (true);
@@ -145,8 +141,9 @@ public class TestAlmacen {
 
     if (!almacen.darBaja(Teclado.leerEntero("Introduce el código identificador del artículo a eliminar: ")))
       System.err.println("El artículo no se encuentra en el almacén.\n");
-
+    else {
     System.out.println("Articulo eliminado.");
+    }
   }
 
   /**
@@ -156,10 +153,7 @@ public class TestAlmacen {
 
     try {
 
-      int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a modificar: ");
-      Articulo articulo = almacen.getCodigo(codigo);
-
-      almacen.modificarArticulo(codigo, Teclado.leerCadena("Introduce una breve descripción del artículo:"),
+      almacen.modificarArticulo(Teclado.leerEntero("Introduce el código identificador del artículo a modificar: "), Teclado.leerCadena("Introduce una breve descripción del artículo:"),
           Teclado.leerDecimal("Precio de compra del artículo: "), Teclado.leerDecimal("Precio de venta del artículo: "),
           Teclado.leerEntero("Cantidad del artículo en stock: "), elegirIVA());
 
@@ -215,7 +209,7 @@ public class TestAlmacen {
   /**
    * Método con el cuál se comprueba que el valor del menú del IVA sea correcto.
    * 
-   * @return TipoIva enumerado
+   * @return TipoIva enum
    */
   private static TipoIva elegirIVA() {
 
