@@ -173,10 +173,8 @@ public class TestAlmacen {
 
       int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a aumentar el stock: ");
 
-      Articulo articulo = almacen.getCodigo(codigo);
-
       almacen.incrementarStock(codigo, Teclado
-          .leerEntero("Introduce cuánto stock nuevo hay en el almacén (" + articulo.getStock() + " actuales): "));
+          .leerEntero("Introduce cuánto stock nuevo hay en el almacén (" + almacen.getCodigo(codigo).getStock() + " actuales): "));
 
       System.out.println("Stock añadido correctamente.");
 
@@ -191,12 +189,10 @@ public class TestAlmacen {
    */
   private static void decrementarStock() {
     try {
-      int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a disminuir el stock: ");
-
-      Articulo articulo = almacen.getCodigo(codigo);
+      int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a disminuir el stock: ");  
 
       almacen.decrementarStock(codigo, Teclado
-          .leerEntero("Introduce cuánto stock se ha eliminado del almacén (" + articulo.getStock() + " actuales): "));
+          .leerEntero("Introduce cuánto stock se ha eliminado del almacén (" + almacen.getCodigo(codigo).getStock() + " actuales): "));
 
       System.out.println("Stock eliminado correctamente.");
 
