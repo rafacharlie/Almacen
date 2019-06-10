@@ -45,19 +45,23 @@ public class Almacen {
   private ArrayList<Articulo> almacen = new ArrayList<Articulo>();
 
   /**
-   * método que da de alta al artículo según los parámetros pasados en el constructor
+   * 
+   * método que da de alta al artículo según los parámetros pasados en el
+   * constructor
    * 
    * @param descripcion
    * @param precioCompra
    * @param precioVenta
    * @param stock
+   * @param iva
    * @throws ValorNegativoStockException
    * @throws IvaInvalidoException
-   * @throws PrecioNegativoCompraException 
-   * @throws PrecioNegativoVentaException 
+   * @throws PrecioNegativoCompraException
+   * @throws PrecioNegativoVentaException
    */
   public void darAlta(String descripcion, double precioCompra, double precioVenta, int stock, TipoIva iva)
-      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException, PrecioNegativoVentaException {
+      throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException,
+      PrecioNegativoVentaException {
 
     almacen.add(new Articulo(descripcion, precioCompra, precioVenta, stock, iva));
 
@@ -72,27 +76,29 @@ public class Almacen {
   public boolean darBaja(int codigo) {
 
     return almacen.remove(new Articulo(codigo));
-   
+
   }
 
   /**
    * método que modifica el artículo (reescribir los parámetros
    * descripcion,precios y stock) según el codigo que le pase el usuario.
    * 
-   * @param articulo
+   * @param codigo
    * @param descripcion
    * @param precioCompra
    * @param precioVenta
    * @param stock
+   * @param iva
    * @throws ValorNegativoStockException
    * @throws IvaInvalidoException
-   * @throws PrecioNegativoCompraException 
-   * @throws PrecioNegativoVentaException 
+   * @throws PrecioNegativoCompraException
+   * @throws PrecioNegativoVentaException
+   * @throws codigoNoExisteException
    */
-  public void modificarArticulo(int codigo, String descripcion, double precioCompra, double precioVenta,
-      int stock, TipoIva iva) throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException, PrecioNegativoVentaException {
-      getCodigo(codigo).modificarArticulo(descripcion, precioCompra, precioVenta, stock, iva);;
-    //almacen.get(almacen.indexOf(new Articulo(codigo))).modificarArticulo(descripcion, precioCompra, precioVenta, stock, iva);
+  public void modificarArticulo(int codigo, String descripcion, double precioCompra, double precioVenta, int stock,
+      TipoIva iva) throws ValorNegativoStockException, IvaInvalidoException, PrecioNegativoCompraException,
+      PrecioNegativoVentaException, codigoNoExisteException {
+    getCodigo(codigo).modificarArticulo(descripcion, precioCompra, precioVenta, stock, iva);
 
   }
 
@@ -102,13 +108,11 @@ public class Almacen {
    * @param codigo
    * @param cantidad
    * @throws ValorNegativoStockException
+   * @throws codigoNoExisteException
    */
-  public void incrementarStock(int codigo, int cantidad) throws ValorNegativoStockException {
-    
-    getCodigo(codigo).incrementarStock(cantidad);
+  public void incrementarStock(int codigo, int cantidad) throws ValorNegativoStockException, codigoNoExisteException {
 
-//    Articulo articulo = almacen.get(almacen.indexOf(new Articulo(codigo)));
-//    articulo.incrementarStock(cantidad);
+    getCodigo(codigo).incrementarStock(cantidad);
 
   }
 
@@ -118,12 +122,11 @@ public class Almacen {
    * @param codigo
    * @param cantidad
    * @throws ValorNegativoStockException
+   * @throws codigoNoExisteException
    */
-  public void decrementarStock(int codigo, int cantidad) throws ValorNegativoStockException {
-    
+  public void decrementarStock(int codigo, int cantidad) throws ValorNegativoStockException, codigoNoExisteException {
+
     getCodigo(codigo).decrementarStock(cantidad);
-//    Articulo articulo = almacen.get(almacen.indexOf(new Articulo(codigo)));
-//    articulo.decrementarStock(cantidad);
 
   }
 
@@ -132,20 +135,35 @@ public class Almacen {
    * 
    * @param codigo
    * @return
+   * @throws codigoNoExisteException
    */
-  public Articulo getCodigo(int codigo) {
-    
-    return almacen.get(almacen.indexOf(new Articulo(codigo)));
-    
+  public Articulo getCodigo(int codigo) throws codigoNoExisteException {
+
+    try {
+      return almacen.get(almacen.indexOf(new Articulo(codigo)));
+    } catch (IndexOutOfBoundsException e) {
+      throw new codigoNoExisteException("El codigo del articulo no existe en el almacen");
+    }
+
   }
-  
-  /**metodo toString
+
+  /**
+   * metodo toString
    * 
    * Muestra el almacen
    */
   @Override
   public String toString() {
-    return "Almacen \n" + almacen ;
+    return "Almacen \n" + almacen;
+  }
+  
+  /**
+   *metodo booleano que devuelve true si el almacen esta vacio y false si no lo esta.
+   *
+   * @return boolean
+   */
+  public boolean isEmpty() {
+     return almacen.isEmpty();
   }
 
 }
