@@ -36,21 +36,26 @@ public class TestAlmacen {
   /* MAIN */
   public static void main(String[] args) {
 
+    // darAltaPrueba();
+
+    ejecutaMenu();
+
+  }
+
+  /**
+   * Metodo que da de alta a algunos productos.
+   */
+  private static void darAltaPrueba() {
     // Algunas instancias predefinidas.
 
     try {
       almacen.darAlta("Nestea", 6, 35, 40, TipoIva.REDUCIDO);
       almacen.darAlta("Coca-Cola", 30, 45, 68, TipoIva.GENERAL);
       almacen.darAlta("Fanta", 33, 42, 53, TipoIva.SUPER_REDUCIDO);
-
-      ejecutaMenu();
-
     } catch (ValorNegativoStockException | IvaInvalidoException | PrecioNegativoCompraException
-        | PrecioNegativoVentaException | NumberFormatException | ParametroNoNumericoException | IOException
-        | AlmacenVacioException e) {
-      // aqui nunca entra
+        | PrecioNegativoVentaException e) {
+      // Aqui nunca entra
     }
-
   }
 
   /**
@@ -65,62 +70,76 @@ public class TestAlmacen {
 
   /**
    * método vacio que ejecuta el menú junto a mostrarMenu() y elegirOpcion()
-   * 
-   * @throws ParametroNoNumericoException
-   * @throws NumberFormatException
-   * @throws IOException
+   *
    * @throws AlmacenVacioException
    */
-  private static void ejecutaMenu()
-      throws ParametroNoNumericoException, NumberFormatException, IOException, AlmacenVacioException {
+  private static void ejecutaMenu() {
 
     do {
 
-      switch (menuPrincipal.gestionar()) {
+      try {
 
-      case 1:
-        mostrar();
-        break;
+        ElegirOpcionMenu();
 
-      case 2:
-        darAlta();
-        break;
-
-      case 3:
-        darBaja();
-        break;
-
-      case 4:
-        modificarArticulo();
-        break;
-
-      case 5:
-        incrementarStock();
-        break;
-
-      case 6:
-        decrementarStock();
-        break;
-
-      case 7:
-        finalizarPrograma();
-        break;
+      } catch (AlmacenVacioException e) {
+        System.err.println(e.getMessage());
       }
 
     } while (true);
   }
 
+  private static void ElegirOpcionMenu() throws AlmacenVacioException {
+    switch (menuPrincipal.gestionar()) {
+
+    case 1:
+      mostrar();
+      break;
+
+    case 2:
+      darAlta();
+      break;
+
+    case 3:
+      darBaja();
+      break;
+
+    case 4:
+      modificarArticulo();
+      break;
+
+    case 5:
+      incrementarStock();
+      break;
+
+    case 6:
+      decrementarStock();
+      break;
+
+    case 7:
+      finalizarPrograma();
+      break;
+    }
+
+  }
+
   /**
    * metodo vacio que muestra el almacen
+   * 
+   * @throws AlmacenVacioException
    */
-  private static void mostrar() {
+  private static void mostrar() throws AlmacenVacioException {
+
+    comprobarSiVacio();
+
     System.out.println(almacen.toString());
   }
 
   /**
    * método vacio que añade un nuevo artículo al almacén
+   * 
    */
   private static void darAlta() {
+
     try {
 
       almacen.darAlta(Teclado.leerCadena("Introduce una breve descripción del artículo:"),
@@ -136,24 +155,44 @@ public class TestAlmacen {
 
   /**
    * método vacio que elimina un artículo del almacén
+   * 
+   * @throws AlmacenVacioException
    */
-  private static void darBaja() {
+  private static void darBaja() throws AlmacenVacioException {
+
+    comprobarSiVacio();
 
     if (!almacen.darBaja(Teclado.leerEntero("Introduce el código identificador del artículo a eliminar: ")))
       System.err.println("El artículo no se encuentra en el almacén.\n");
     else {
-    System.out.println("Articulo eliminado.");
+      System.out.println("Articulo eliminado.");
     }
   }
 
   /**
-   * método vacio que permite modificar los valores de un artículo
+   * Metodo vacio que comprueba si el almacen esta vacio.
+   * 
+   * @throws AlmacenVacioException
    */
-  private static void modificarArticulo() {
+  private static void comprobarSiVacio() throws AlmacenVacioException {
+
+    if (almacen.isEmpty())
+      throw new AlmacenVacioException("No se ha podido realizar la accion, el almacen esta vacio.");
+  }
+
+  /**
+   * método vacio que permite modificar los valores de un artículo
+   * 
+   * @throws AlmacenVacioException
+   */
+  private static void modificarArticulo() throws AlmacenVacioException {
+
+    comprobarSiVacio();
 
     try {
 
-      almacen.modificarArticulo(Teclado.leerEntero("Introduce el código identificador del artículo a modificar: "), Teclado.leerCadena("Introduce una breve descripción del artículo:"),
+      almacen.modificarArticulo(Teclado.leerEntero("Introduce el código identificador del artículo a modificar: "),
+          Teclado.leerCadena("Introduce una breve descripción del artículo:"),
           Teclado.leerDecimal("Precio de compra del artículo: "), Teclado.leerDecimal("Precio de venta del artículo: "),
           Teclado.leerEntero("Cantidad del artículo en stock: "), elegirIVA());
 
@@ -166,15 +205,19 @@ public class TestAlmacen {
 
   /**
    * método vacio que incrementa el stock.
+   * 
+   * @throws AlmacenVacioException
    */
-  private static void incrementarStock() {
+  private static void incrementarStock() throws AlmacenVacioException {
+
+    comprobarSiVacio();
 
     try {
 
       int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a aumentar el stock: ");
 
-      almacen.incrementarStock(codigo, Teclado
-          .leerEntero("Introduce cuánto stock nuevo hay en el almacén (" + almacen.getCodigo(codigo).getStock() + " actuales): "));
+      almacen.incrementarStock(codigo, Teclado.leerEntero(
+          "Introduce cuánto stock nuevo hay en el almacén (" + almacen.getCodigo(codigo).getStock() + " actuales): "));
 
       System.out.println("Stock añadido correctamente.");
 
@@ -186,13 +229,19 @@ public class TestAlmacen {
 
   /**
    * método vacio que decrementa el stock.
+   * 
+   * @throws AlmacenVacioException
    */
-  private static void decrementarStock() {
-    try {
-      int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a disminuir el stock: ");  
+  private static void decrementarStock() throws AlmacenVacioException {
 
-      almacen.decrementarStock(codigo, Teclado
-          .leerEntero("Introduce cuánto stock se ha eliminado del almacén (" + almacen.getCodigo(codigo).getStock() + " actuales): "));
+    comprobarSiVacio();
+
+    try {
+
+      int codigo = Teclado.leerEntero("Introduce el código identificador del artículo a disminuir el stock: ");
+
+      almacen.decrementarStock(codigo, Teclado.leerEntero("Introduce cuánto stock se ha eliminado del almacén ("
+          + almacen.getCodigo(codigo).getStock() + " actuales): "));
 
       System.out.println("Stock eliminado correctamente.");
 
