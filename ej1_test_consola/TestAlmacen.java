@@ -36,7 +36,7 @@ public class TestAlmacen {
   /* MAIN */
   public static void main(String[] args) {
 
-   darAltaPrueba();
+    darAltaPrueba();
 
     ejecutaMenu();
 
@@ -59,7 +59,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que finaliza el programa
+   * método que finaliza el programa
    */
   private static void finalizarPrograma() {
 
@@ -69,7 +69,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que ejecuta el menú junto a mostrarMenu() y elegirOpcion()
+   * método que ejecuta el menú principal
    *
    * @throws AlmacenVacioException
    */
@@ -87,6 +87,12 @@ public class TestAlmacen {
 
     } while (true);
   }
+  
+  /**
+   * Metodo que elige opcion en el menu principal. 
+   *
+   * @throws AlmacenVacioException
+   */
 
   private static void elegirOpcionMenu() throws AlmacenVacioException {
     switch (menuPrincipal.gestionar()) {
@@ -123,7 +129,7 @@ public class TestAlmacen {
   }
 
   /**
-   * metodo vacio que muestra el almacen
+   * metodo que muestra el almacen
    * 
    * @throws AlmacenVacioException
    */
@@ -135,7 +141,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que añade un nuevo artículo al almacén
+   * Método añadir en el que se le pedirá al usuario los datos del artículo.
    * 
    */
   private static void darAlta() {
@@ -154,7 +160,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que elimina un artículo del almacén
+   * Método para dar de baja un artículo de la lista.
    * 
    * @throws AlmacenVacioException
    */
@@ -170,7 +176,7 @@ public class TestAlmacen {
   }
 
   /**
-   * Metodo vacio que comprueba si el almacen esta vacio.
+   * Metodo que comprueba si el almacen esta vacio.
    * 
    * @throws AlmacenVacioException
    */
@@ -181,7 +187,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que permite modificar los valores de un artículo
+   * método que permite modificar los valores de un artículo
    * 
    * @throws AlmacenVacioException
    */
@@ -204,7 +210,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que incrementa el stock.
+   * método que incrementa el stock.
    * 
    * @throws AlmacenVacioException
    */
@@ -228,7 +234,7 @@ public class TestAlmacen {
   }
 
   /**
-   * método vacio que decrementa el stock.
+   * método que decrementa el stock.
    * 
    * @throws AlmacenVacioException
    */
