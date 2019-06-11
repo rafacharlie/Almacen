@@ -219,7 +219,7 @@ public class Articulo {
   }
 
   /**
-   * metodo vacio que modifica un articulo; todo salvo el codigo.
+   * metodo que modifica un articulo; todo salvo el codigo.
    * 
    * @param descripcion
    * @param precioCompra
@@ -243,7 +243,7 @@ public class Articulo {
   }
 
   /**
-   * metodo vacio que incrementa el stock
+   * metodo que incrementa el stock
    * 
    * @param cantidad
    * @throws ValorNegativoStockException
@@ -257,7 +257,7 @@ public class Articulo {
   }
 
   /**
-   * metodo vacio que decrementa el stock
+   * metodo que decrementa el stock
    * 
    * @param cantidad
    * @throws ValorNegativoStockException
