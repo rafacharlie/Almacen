@@ -36,7 +36,7 @@ public class TestAlmacen {
   /* MAIN */
   public static void main(String[] args) {
 
-    // darAltaPrueba();
+   darAltaPrueba();
 
     ejecutaMenu();
 
@@ -79,7 +79,7 @@ public class TestAlmacen {
 
       try {
 
-        ElegirOpcionMenu();
+        elegirOpcionMenu();
 
       } catch (AlmacenVacioException e) {
         System.err.println(e.getMessage());
@@ -88,7 +88,7 @@ public class TestAlmacen {
     } while (true);
   }
 
-  private static void ElegirOpcionMenu() throws AlmacenVacioException {
+  private static void elegirOpcionMenu() throws AlmacenVacioException {
     switch (menuPrincipal.gestionar()) {
 
     case 1:
