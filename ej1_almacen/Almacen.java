@@ -158,7 +158,7 @@ public class Almacen {
   }
   
   /**
-   *metodo booleano que devuelve true si el almacen esta vacio y false si no lo esta.
+   *metodo que devuelve true si el almacen esta vacio y false si no lo esta.
    *
    * @return boolean
    */
